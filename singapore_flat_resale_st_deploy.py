@@ -63,9 +63,12 @@ if selection == 'Prediction':
      set_bg_hack(encoded_pic)
 
      col1,col2 = st.columns(2)
-     df_features = pd.read_csv ("singapore_flat_resale_combined.csv")
-     df_features['flat_type']=df_features['flat_type'].str.replace('-', ' ')
-     df_features['month']=pd.to_datetime(df_features['month'])
+     
+     
+     flat_type=['1 ROOM', '2 ROOM', '3 ROOM', '4 ROOM', '5 ROOM',  'EXECUTIVE', 'MULTI GENERATION']
+     town_type=['ANG MO KIO', 'BEDOK', 'BISHAN', 'BUKIT BATOK', 'BUKIT MERAH','BUKIT TIMAH', 'CENTRAL AREA', 'CLEMENTI', 'GEYLANG', 'HOUGANG',
+       'JURONG EAST', 'JURONG WEST', 'KALLANG/WHAMPOA', 'MARINE PARADE','QUEENSTOWN', 'SERANGOON', 'TAMPINES', 'TOA PAYOH', 'WOODLANDS',
+       'YISHUN', 'CHOA CHU KANG', 'BUKIT PANJANG', 'PASIR RIS','SENGKANG', 'SEMBAWANG', 'LIM CHU KANG', 'PUNGGOL']
      st.markdown('''<h5 style='color: white;'>Year</h5>''', unsafe_allow_html=True)
      Year = int(st.number_input('Enter year'))
      st.markdown('''<h5 style='color: white;'>Floor area sqm</h5>''', unsafe_allow_html=True)
@@ -73,11 +76,11 @@ if selection == 'Prediction':
      st.markdown('''<h5 style='color: white;'>Remaining Lease</h5>''', unsafe_allow_html=True)
      Remaining_lease = Remaining_lease = int(st.selectbox("Enter remaining_lease", (i for i in range(1, 100))))
      st.markdown('''<h5 style='color: white;'>Flat Type</h5>''', unsafe_allow_html=True) 
-     Flat_type = st.selectbox("Enter flat_type",df_features['flat_type'].unique())
+     Flat_type = st.selectbox("Enter flat_type",flat_type)
      st.markdown('''<h5 style='color: white;'>Mid Storey</h5>''', unsafe_allow_html=True)
-     Mid_storey = st.selectbox("Enter mid_storey",set(df_features['mid_storey'].unique()))
+     Mid_storey = int(st.number_input("Enter mid_storey"))
      st.markdown('''<h5 style='color: white;'>Town</h5>''', unsafe_allow_html=True)
-     Town = st.selectbox("Enter town",df_features['town'].unique())
+     Town = st.selectbox("Enter town",town_type)
                
      Resale_prediction = {
                          "town": Town, 
