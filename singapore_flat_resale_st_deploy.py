@@ -120,4 +120,12 @@ if selection == 'Prediction':
      else:        
           scaled_data = scaler.transform(df2_resale)
           predictions = np.exp(scaler_target.inverse_transform(pd.DataFrame(model.predict(scaled_data))))
-          col2.container(border=True).text(predictions[0][0])
+          with col2.container():
+               st.markdown(
+                    f"""
+                    <div style='border:1px solid black; padding:5px; background-color: #f0f0f0; color: #000; text-align: center;'>
+                         <h5>{predictions[0][0]}</h5>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+               )
