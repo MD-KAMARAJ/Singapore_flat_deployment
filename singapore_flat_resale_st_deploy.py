@@ -13,13 +13,18 @@ def set_bg_hack(main_bg):
              background: url(data:image/{main_bg_ext};base64,{main_bg});
              background-size: cover}}</style>""",unsafe_allow_html=True)
           
+def set_bg_hack1(main_bg):
+          main_bg_ext = "jpg"
+          st.markdown(f"""<style>.stApp {{
+             background: url(data:image/{main_bg_ext};base64,{main_bg});
+             background-size: cover}}</style>""",unsafe_allow_html=True)
+          
 st.title(":red[Singapore Flat Resale Price Prediction]")
-with st.sidebar:
-     selection=option_menu(menu_title= 'Main menu',
-                         options=['Home','Prediction'],
-                         icons=['home', 'analysis' ])
 
-if selection == 'Home':
+selected_page = st.sidebar.radio("Select here:", ["Home", "Prediction"])
+
+
+if selected_page == "Home":
      
      with open(r"singapore_pic.jpg", "rb") as image_file:
                image_bytes = image_file.read()
@@ -30,7 +35,7 @@ if selection == 'Home':
      st.markdown('''<h5 style='color: white;'>This Singapore flat resale price prediction predicts the flat resale price if you have provided the sufficient inputs to this model</h5>''',unsafe_allow_html=True)
      st.markdown('''<h6 style='color: white;'>The inputs to be provided are as follows:</h6>''',unsafe_allow_html=True)
      st.markdown('''<h3 style='color: white;'>Year</h3>''',unsafe_allow_html=True)
-     st.markdown('''<h5 style='color: white;'>This year refers to the year on which the resale price is predicted</h5>''',unsafe_allow_html=True)
+     st.markdown('''<h5 style='color: white;'>This year refers to the year on which the resale price has to be predicted</h5>''',unsafe_allow_html=True)
      st.markdown('''<h3 style='color: white;'>Flat Type:</h3>''',unsafe_allow_html=True)
      st.markdown('''<h5 style='color: white;'>This flat type indicated whether the flat is, 1 Room, 2 Rooms, 3 Rooms, 4 Rooms, 5 Rooms, Executive and Multi-Generation. 
                  These types are mapped to numbers</h5>''',unsafe_allow_html=True)
@@ -52,15 +57,12 @@ if selection == 'Home':
      st.markdown('''<h3 style='color: white;'>Mid Storey:</h3>''',unsafe_allow_html=True)
      st.markdown('''<h5 style='color: white;'>This features tells us about the number floors that the flat has, normally it is shown in range format, then from that range the number of floor is arrived</h5>''',unsafe_allow_html=True)
 
-
-
-if selection == 'Prediction':
-
+elif selected_page == "Prediction":
      with open(r"analysis.jpg", "rb") as pic_file:
                pic_bytes = pic_file.read()
                encoded_pic = base64.b64encode(pic_bytes).decode()
 
-     set_bg_hack(encoded_pic)
+     set_bg_hack1(encoded_pic)
 
      col1,col2 = st.columns(2)
      
@@ -70,17 +72,18 @@ if selection == 'Prediction':
        'JURONG EAST', 'JURONG WEST', 'KALLANG/WHAMPOA', 'MARINE PARADE','QUEENSTOWN', 'SERANGOON', 'TAMPINES', 'TOA PAYOH', 'WOODLANDS',
        'YISHUN', 'CHOA CHU KANG', 'BUKIT PANJANG', 'PASIR RIS','SENGKANG', 'SEMBAWANG', 'LIM CHU KANG', 'PUNGGOL']
      st.markdown('''<h5 style='color: white;'>Year</h5>''', unsafe_allow_html=True)
-     Year = int(st.number_input('Enter year'))
+     Year = int(st.number_input(''))
+     
      st.markdown('''<h5 style='color: white;'>Floor area sqm</h5>''', unsafe_allow_html=True)
-     Floor_area_sqm = int(st.number_input("Enter floor_area_sqm"))
+     Floor_area_sqm = int(st.number_input(" "))
      st.markdown('''<h5 style='color: white;'>Remaining Lease</h5>''', unsafe_allow_html=True)
-     Remaining_lease = Remaining_lease = int(st.selectbox("Enter remaining_lease", (i for i in range(1, 100))))
+     Remaining_lease = Remaining_lease = int(st.selectbox(" ", (i for i in range(1, 100))))
      st.markdown('''<h5 style='color: white;'>Flat Type</h5>''', unsafe_allow_html=True) 
-     Flat_type = st.selectbox("Enter flat_type",flat_type)
+     Flat_type = st.selectbox(" ",flat_type)
      st.markdown('''<h5 style='color: white;'>Mid Storey</h5>''', unsafe_allow_html=True)
-     Mid_storey = int(st.number_input("Enter mid_storey"))
+     Mid_storey = int(st.number_input("  "))
      st.markdown('''<h5 style='color: white;'>Town</h5>''', unsafe_allow_html=True)
-     Town = st.selectbox("Enter town",town_type)
+     Town = st.selectbox(" ",town_type)
                
      Resale_prediction = {
                          "town": Town, 
@@ -116,7 +119,7 @@ if selection == 'Prediction':
      scaler_target=data['scaler_target']
      df2_resale=df1_resale[selected_features_AS]
      
-     col2.markdown('''<h3 style='color: white;'>Resale Flat Price Prediction</h3>''', unsafe_allow_html=True)
+     col2.markdown('''<h3 style='color: red;'>Resale Flat Price Prediction</h3>''', unsafe_allow_html=True)
      
      if np.isinf(df2_resale).values.any():
           col2.container(border=True).markdown("***The input contains infinite values. Please provide valid input values.***")    
@@ -126,7 +129,7 @@ if selection == 'Prediction':
           with col2.container():
                st.markdown(
                     f"""
-                    <div style='border:1px solid black; padding:5px; background-color: #f0f0f0; color: #000; text-align: center;'>
+                    <div style='border:1px solid black; padding:5px; background-color: #f0f0f0 !important; color: #000; text-align: center;'>
                          <h5>{predictions[0][0]}</h5>
                     </div>
                     """,
