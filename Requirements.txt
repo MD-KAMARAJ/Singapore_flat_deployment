@@ -1,7 +1,6 @@
 dill
-numpy==2.1.4
-pandas==2.2.3
-scikit-learn==1.5.2
-streamlit==1.39.0
-streamlit-option-menu==0.3.13
-sklearn-preprocessing==0.1.0
+numpy
+pandas
+scikit-learn
+streamlit
+sklearn-preprocessing
