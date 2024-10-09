@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
+#import joblib
 import base64
 
 st.set_page_config(layout = "wide")
