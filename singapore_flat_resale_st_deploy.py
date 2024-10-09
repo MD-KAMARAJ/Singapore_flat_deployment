@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pickle
+import dill
 import base64
 
 st.set_page_config(layout = "wide")
@@ -104,8 +104,8 @@ elif selected_page == "Prediction":
 
      
      df1_resale = df_resale.copy()
-     with open("model_RF_deploy.pkl", "rb") as file:
-          data = pickle.load(file)
+     with open("model_RF_deploy.dill", "rb") as file:
+          data = dill.load(file)
 
      # Extract the model from the loaded data
      model = data['model']
