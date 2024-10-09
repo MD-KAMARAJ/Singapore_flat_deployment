@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
+import pickle
 import base64
 
 st.set_page_config(layout = "wide")
@@ -110,7 +110,9 @@ elif selected_page == "Prediction":
 
      
      df1_resale = df_resale.copy()
-     data = joblib.load("model_RF_deploy.joblib", mmap_mode='r')
+     with open("model_RF_deploy.pkl", 'rb') as f:
+         data = pickle.load(f)
+     #data = joblib.load("model_RF_deploy.joblib", mmap_mode='r')
      model = data['model']
      selected_features_AS=['town_encoded','flat_type_encoded','year_log', 'floor_area_sqm_log', 'remaining_lease_log','mid_storey_log']
      
