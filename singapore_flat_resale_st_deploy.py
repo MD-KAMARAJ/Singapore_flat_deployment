@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
+import pickle
 import base64
 
 st.set_page_config(layout = "wide")
@@ -11,13 +11,7 @@ def set_bg_hack(main_bg):
           st.markdown(f"""<style>.stApp {{
              background: url(data:image/{main_bg_ext};base64,{main_bg});
              background-size: cover}}</style>""",unsafe_allow_html=True)
-          
-def set_bg_hack1(main_bg):
-          main_bg_ext = "jpg"
-          st.markdown(f"""<style>.stApp {{
-             background: url(data:image/{main_bg_ext};base64,{main_bg});
-             background-size: cover}}</style>""",unsafe_allow_html=True)
-          
+
 st.title(":red[Singapore Flat Resale Price Prediction]")
 
 selected_page = st.sidebar.radio("Select here:", ["Home", "Prediction"])
@@ -61,7 +55,7 @@ elif selected_page == "Prediction":
                pic_bytes = pic_file.read()
                encoded_pic = base64.b64encode(pic_bytes).decode()
 
-     set_bg_hack1(encoded_pic)
+     set_bg_hack(encoded_pic)
 
      col1,col2 = st.columns(2)
      
@@ -110,8 +104,14 @@ elif selected_page == "Prediction":
 
      
      df1_resale = df_resale.copy()
-     data = joblib.load("model_RF_deploy.joblib", mmap_mode='r')
+     with open("model_RF_deploy.pkl", "rb") as file:
+          data = pickle.load(file)
+
+     # Extract the model from the loaded data
      model = data['model']
+     scaler = data['scaler']
+     scaler_target = data['scaler_target']
+
      selected_features_AS=['town_encoded','flat_type_encoded','year_log', 'floor_area_sqm_log', 'remaining_lease_log','mid_storey_log']
      
      scaler = data['scaler']
